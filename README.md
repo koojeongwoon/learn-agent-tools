@@ -1,4 +1,4 @@
-# AI Agent Document Generator (Fill You Up v1.0)
+# AI Agent Document Generator
 
 이 프로젝트는 Claude Code 또는 Gemini CLI와 연동하여, 사용자의 자연어 요청을 분석하고 구조화된 Word(.docx) 문서를 자동으로 생성하는 AI 에이전트 스킬 세트입니다.
 
