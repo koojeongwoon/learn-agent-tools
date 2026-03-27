@@ -18,8 +18,8 @@ def generate_document(template_id, payload_str):
             sys.exit(f"Error: Invalid JSON data format. {str(e)}")
 
         # 2. 템플릿 파일 경로 설정
-        # (예: templates/proposal_v1.docx)
-        template_path = f"templates/{template_id}.docx"
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(script_dir, "templates", f"{template_id}.docx")
         if not os.path.exists(template_path):
             sys.exit(f"Error: Template file not found at {template_path}")
 
@@ -62,7 +62,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.get_vars:
-        template_path = f"templates/{args.template}.docx"
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        template_path = os.path.join(script_dir, "templates", f"{args.template}.docx")
         if not os.path.exists(template_path):
             sys.exit(f"Error: Template file not found at {template_path}")
         doc = DocxTemplate(template_path)

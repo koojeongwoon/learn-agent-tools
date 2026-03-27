@@ -7,7 +7,7 @@ allowed_tools: ["bash", "python"]
 
 # 문서 생성 스킬 (Docx Generator)
 
-이 스킬은 사용자의 요청을 분석하여 `scripts/generate_docx.py`를 실행하고 결과물을 만듭니다.
+이 스킬은 사용자의 요청을 분석하여 같은 폴더 내의 `generate_docx.py`를 실행하고 결과물을 만듭니다.
 
 ## 사용 가능한 도구 (Tools)
 
@@ -17,7 +17,7 @@ allowed_tools: ["bash", "python"]
 
 ```json
 {
-  "command": "uv run scripts/generate_docx.py",
+  "command": "uv run .agents/skills/docx-generator/generate_docx.py",
   "args": ["--template", "{{template_id}}", "--data", "{{payload}}"],
   "parameters": {
     "type": "object",
@@ -39,5 +39,5 @@ allowed_tools: ["bash", "python"]
 ### `--get-vars` 옵션
 템플릿 파일 안에 어떤 변수가 필요한지 모를 때는 `--data` 인수 대신 이 플래그를 사용하여 변수 목록만 추출할 수 있습니다.
 ```bash
-uv run scripts/generate_docx.py --template {{template_id}} --get-vars
+uv run .agents/skills/docx-generator/generate_docx.py --template {{template_id}} --get-vars
 ```

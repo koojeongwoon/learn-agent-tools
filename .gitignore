@@ -7,15 +7,27 @@ wheels/
 *.egg-info
 
 # Virtual environments
-.venv
+.venv/
+**/.venv/
 
-# macOS
+# IDE & OS
 .DS_Store
+**/.DS_Store
+.vscode/
+.idea/
 
 # Environment Variables
 .env
+.env.*
 .envrc
 
-# Output Dir
-output/*
-!output/.gitkeep
+# MCP & Agent Outputs
+**/output/*
+!**/output/.gitkeep
+
+# Caches & Logs
+.pytest_cache/
+.mypy_cache/
+*.log
+
+# (주의) .agents 심볼릭 링크는 버전 관리에 포함되어야 하므로 무시하지 않습니다.

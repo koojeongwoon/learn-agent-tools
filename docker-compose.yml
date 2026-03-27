@@ -1,0 +1,69 @@
+services:
+  postgres:
+    # 일반 postgres 이미지 대신, pgvector 확장이 설치된 공식 이미지를 사용합니다.
+    image: pgvector/pgvector:pg15
+    container_name: tools-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tools_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  tools-mcp:
+    build:
+      context: ./mcp-servers/tools-mcp
+    container_name: tools-mcp-server
+    env_file:
+      - ./mcp-servers/tools-mcp/.env
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  rag-mcp:
+    build:
+      context: ./mcp-servers/rag-mcp
+    container_name: rag-mcp-server
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./mcp-servers/rag-mcp/.env
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  api-server:
+    build:
+      context: ./api-server
+    container_name: api-server
+    env_file:
+      - ./api-server/.env
+    ports:
+      - "8002:8002"
+    environment:
+      - AGENTS_URL=http://agents:8080/chat
+    depends_on:
+      - agents
+    restart: unless-stopped
+
+  agents:
+    build:
+      context: ./agents
+    container_name: agents
+    env_file:
+      - ./agents/.env
+    environment:
+      - TOOLS_MCP_URL=http://tools-mcp:8000/sse
+      - RAG_MCP_URL=http://rag-mcp:8001/sse
+    # 에이전트는 두 MCP 서버와 DB가 켜진 후에 동작해야 합니다.
+    depends_on:
+      - tools-mcp
+      - rag-mcp
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
