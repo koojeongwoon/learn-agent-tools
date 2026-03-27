@@ -16,10 +16,10 @@ class Settings:
     JWT_SECRET: str = os.environ.get("JWT_SECRET", "super-secret-key-change-it")
     JWT_ALGORITHM: str = "HS256"
     
-    # Access Token: 30분
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    # Refresh Token: 7일
-    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    # Access Token: 기본 30분
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
+    # Refresh Token: 기본 7일
+    REFRESH_TOKEN_EXPIRE_DAYS: int = int(os.environ.get("REFRESH_TOKEN_EXPIRE_DAYS", "7"))
 
     # Cookie 설정
     ACCESS_TOKEN_COOKIE_NAME: str = "access_token"
